@@ -1,0 +1,30 @@
+% Set the directory path containing the images
+imageDir ="H:\DIC Videos\DIC none";
+% Get a list of all image files in the directory
+% Adjust the file extension as needed (e.g., '*.jpg', '*.png', etc.)
+imageFiles = dir(fullfile(imageDir, '*.tif'));
+
+% Sort the files alphabetically to ensure consistent ordering
+[~, sortIndex] = sort({imageFiles.name});
+imageFiles = imageFiles(sortIndex);
+
+% Loop through each file and rename it
+for i = 1:length(imageFiles)
+    % Get the old filename and extension
+    [~, ~, ext] = fileparts(imageFiles(i).name);
+    
+    % Create the new filename
+    newName = sprintf('%03d_0%s', i-1, ext);
+    
+    % Construct full file paths
+    oldFile = fullfile(imageDir, imageFiles(i).name);
+    newFile = fullfile(imageDir, newName);
+    
+    % Rename the file
+    movefile(oldFile, newFile);
+    
+    % Display progress
+    fprintf('Renamed: %s to %s\n', imageFiles(i).name, newName);
+end
+
+fprintf('Renaming complete.\n');

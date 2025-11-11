@@ -1,0 +1,24 @@
+% Set the path to your video file
+videoFile ="H:\khamis al 07-11-2025.is_tens_Exports\C0783.MP4";
+outputFolder ="H:\DIC Videos\DIC none";     % Folder to save the images
+
+% Create output folder if it doesn't exist
+if ~exist(outputFolder, 'dir')
+    mkdir(outputFolder);
+end
+
+% Read the video
+vidObj = VideoReader(videoFile);
+frameRate = vidObj.FrameRate;
+
+frameIdx = 1;
+
+% Loop through video frames
+while hasFrame(vidObj)
+    frame = readFrame(vidObj);  % Read the next frame
+    filename = fullfile(outputFolder, sprintf('frame_%04d_0 .tif', frameIdx));
+    imwrite(frame, filename);   % Save frame as image
+    frameIdx = frameIdx + 1;
+end
+
+fprintf('Extracted %d frames to folder "%s"\n', frameIdx - 1, outputFolder);
